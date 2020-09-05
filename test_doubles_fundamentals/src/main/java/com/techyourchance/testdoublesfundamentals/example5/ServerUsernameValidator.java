@@ -14,5 +14,4 @@ public class ServerUsernameValidator {
       return false;
     }
   }
-
 }
