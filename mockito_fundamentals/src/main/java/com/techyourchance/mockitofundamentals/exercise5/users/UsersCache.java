@@ -2,8 +2,8 @@ package com.techyourchance.mockitofundamentals.exercise5.users;
 
 public interface UsersCache {
 
-    void cacheUser(User user);
+  void cacheUser(User user);
 
-    User getUser(String userId);
+  User getUser(String userId);
 
 }
