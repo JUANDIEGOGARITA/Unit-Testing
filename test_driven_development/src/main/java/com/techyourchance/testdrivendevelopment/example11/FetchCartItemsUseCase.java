@@ -9,69 +9,69 @@ import java.util.List;
 
 public class FetchCartItemsUseCase {
 
-    public interface Listener {
-        void onCartItemsFetched(List<CartItem> capture);
-        void onFetchCartItemsFailed();
-    }
+  public interface Listener {
+    void onCartItemsFetched(List<CartItem> capture);
 
-    private final List<Listener> mListeners = new ArrayList<>();
-    private final GetCartItemsHttpEndpoint mGetCartItemsHttpEndpoint;
+    void onFetchCartItemsFailed();
+  }
 
-    public FetchCartItemsUseCase(GetCartItemsHttpEndpoint getCartItemsHttpEndpoint) {
-        mGetCartItemsHttpEndpoint = getCartItemsHttpEndpoint;
-    }
+  private final List<Listener> mListeners = new ArrayList<>();
+  private final GetCartItemsHttpEndpoint mGetCartItemsHttpEndpoint;
 
-    public void fetchCartItemsAndNotify(int limit) {
-        mGetCartItemsHttpEndpoint.getCartItems(limit, new GetCartItemsHttpEndpoint.Callback() {
+  public FetchCartItemsUseCase(GetCartItemsHttpEndpoint getCartItemsHttpEndpoint) {
+    mGetCartItemsHttpEndpoint = getCartItemsHttpEndpoint;
+  }
 
-            @Override
-            public void onGetCartItemsSucceeded(List<CartItemSchema> cartItems) {
-                notifySucceeded(cartItems);
-            }
+  public void fetchCartItemsAndNotify(int limit) {
+    mGetCartItemsHttpEndpoint.getCartItems(limit, new GetCartItemsHttpEndpoint.Callback() {
 
-            @Override
-            public void onGetCartItemsFailed(GetCartItemsHttpEndpoint.FailReason failReason) {
-                switch (failReason) {
-                    case GENERAL_ERROR:
-                    case NETWORK_ERROR:
-                        notifyFailed();
-                        break;
-                }
-            }
-        });
-    }
+      @Override
+      public void onGetCartItemsSucceeded(List<CartItemSchema> cartItems) {
+        notifySucceeded(cartItems);
+      }
 
-    private void notifySucceeded(List<CartItemSchema> cartItems) {
-        for (Listener listener : mListeners) {
-            listener.onCartItemsFetched(cartItemsFromSchemas(cartItems));
+      @Override
+      public void onGetCartItemsFailed(GetCartItemsHttpEndpoint.FailReason failReason) {
+        switch (failReason) {
+          case GENERAL_ERROR:
+          case NETWORK_ERROR:
+            notifyFailed();
+            break;
         }
-    }
+      }
+    });
+  }
 
-    private void notifyFailed() {
-        for (Listener listener : mListeners) {
-            listener.onFetchCartItemsFailed();
-        }
+  private void notifySucceeded(List<CartItemSchema> cartItems) {
+    for (Listener listener : mListeners) {
+      listener.onCartItemsFetched(cartItemsFromSchemas(cartItems));
     }
+  }
 
-    private List<CartItem> cartItemsFromSchemas(List<CartItemSchema> cartItemSchemas) {
-        List<CartItem> cartItems = new ArrayList<>();
-        for (CartItemSchema schema : cartItemSchemas) {
-            cartItems.add(new CartItem(
-                    schema.getId(),
-                    schema.getTitle(),
-                    schema.getDescription(),
-                    schema.getPrice()
-            ));
-        }
-        return cartItems;
+  private void notifyFailed() {
+    for (Listener listener : mListeners) {
+      listener.onFetchCartItemsFailed();
     }
+  }
 
-    public void registerListener(Listener listener) {
-        mListeners.add(listener);
+  private List<CartItem> cartItemsFromSchemas(List<CartItemSchema> cartItemSchemas) {
+    List<CartItem> cartItems = new ArrayList<>();
+    for (CartItemSchema schema : cartItemSchemas) {
+      cartItems.add(new CartItem(
+        schema.getId(),
+        schema.getTitle(),
+        schema.getDescription(),
+        schema.getPrice()
+      ));
     }
+    return cartItems;
+  }
 
-    public void unregisterListener(Listener listener) {
-        mListeners.remove(listener);
-    }
+  public void registerListener(Listener listener) {
+    mListeners.add(listener);
+  }
 
+  public void unregisterListener(Listener listener) {
+    mListeners.remove(listener);
+  }
 }
