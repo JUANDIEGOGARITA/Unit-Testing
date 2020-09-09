@@ -1,3 +1,3 @@
 # Android Unit Testing and Test Driven Development
 
-Tutorial application for [my course about unit testing in Android](https://go.techyourchance.com/android-unit-testing-course-github)
+This repo contains a unit testing demo project from the Udemy course -> [Android Unit Testing and Test Driven Development](https://www.udemy.com/course/professional-android-unit-testing/)
