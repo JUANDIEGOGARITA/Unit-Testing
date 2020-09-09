@@ -1,35 +1,35 @@
 package com.techyourchance.unittestingfundamentals.exercise1;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ExerciseSolution1 {
 
-    NegativeNumberValidator SUT;
+  NegativeNumberValidator SUT;
 
-    @Before
-    public void setup() {
-        SUT = new NegativeNumberValidator();
-    }
+  @Before
+  public void setup() {
+    SUT = new NegativeNumberValidator();
+  }
 
-    @Test
-    public void test1() {
-        boolean result = SUT.isNegative(-1);
-        Assert.assertThat(result, is(true));
-    }
+  @Test
+  public void test1() {
+    boolean result = SUT.isNegative(-1);
+    assertTrue(result);
+  }
 
-    @Test
-    public void test2() {
-        boolean result = SUT.isNegative(0);
-        Assert.assertThat(result, is(false));
-    }
+  @Test
+  public void test2() {
+    boolean result = SUT.isNegative(0);
+    assertFalse(result);
+  }
 
-    @Test
-    public void test3() {
-        boolean result = SUT.isNegative(1);
-        Assert.assertThat(result, is(false));
-    }
+  @Test
+  public void test3() {
+    boolean result = SUT.isNegative(1);
+    assertFalse(result);
+  }
 }

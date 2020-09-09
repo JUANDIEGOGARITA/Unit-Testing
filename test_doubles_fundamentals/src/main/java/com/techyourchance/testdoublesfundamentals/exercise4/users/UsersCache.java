@@ -4,8 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 public interface UsersCache {
 
-    void cacheUser(User user);
+  void cacheUser(User user);
 
-    @Nullable User getUser(String userId);
+  @Nullable
+  User getUser(String userId);
 
 }
